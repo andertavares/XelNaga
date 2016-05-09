@@ -77,10 +77,10 @@ bool ProductionManager::canMake(BWAPI::Unit builder, BWAPI::UnitType type)
 	return true;
 }
 
-void ProductionManager::onOffer(std::set<BWAPI::Unit> units)
+void ProductionManager::onOffer(BWAPI::Unitset units)
 {
 	//go through all the units that are being offered to us
-	for(std::set<BWAPI::Unit>::iterator i=units.begin();i!=units.end();i++)
+	for(BWAPI::Unitset::iterator i=units.begin();i!=units.end();i++)
 	{
 		//we will loop through the unit types in the production queue for this type of unit
 		std::map<BWAPI::UnitType,std::list<ProductionUnitType> >::iterator q=productionQueues.find((*i)->getType());
@@ -123,8 +123,8 @@ void ProductionManager::onRevoke(BWAPI::Unit unit, double bid)
 
 void ProductionManager::update()
 {
-	std::set<BWAPI::Unit> myPlayerUnits=BWAPI::Broodwar->self()->getUnits();
-	for(std::set<BWAPI::Unit>::iterator u = myPlayerUnits.begin(); u != myPlayerUnits.end(); u++)
+	BWAPI::Unitset myPlayerUnits=BWAPI::Broodwar->self()->getUnits();
+	for(BWAPI::Unitset::iterator u = myPlayerUnits.begin(); u != myPlayerUnits.end(); u++)
 	{
 		std::map<BWAPI::UnitType,std::list<ProductionUnitType> >::iterator p=productionQueues.find((*u)->getType());
 		if (p!=productionQueues.end() && !p->second.empty() && (*u)->isCompleted() && producingUnits.find(*u)==producingUnits.end())
@@ -151,7 +151,7 @@ void ProductionManager::update()
 			if (i->second.unit==NULL) //if the build unit doesnt exist, train it
 			{
 				if (BWAPI::Broodwar->getFrameCount()>i->second.lastAttemptFrame+BWAPI::Broodwar->getLatency()*2)
-					if (BWAPI::Broodwar->canMake(i->first,i->second.type.type))
+					if (BWAPI::Broodwar->canMake(i->second.type.type, i->first))
 					{
 						i->first->train(i->second.type.type);
 						i->second.lastAttemptFrame=BWAPI::Broodwar->getFrameCount();

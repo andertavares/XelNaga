@@ -77,10 +77,10 @@ bool MorphManager::canMake(BWAPI::Unit builder, BWAPI::UnitType type)
 	return true;
 }
 
-void MorphManager::onOffer(std::set<BWAPI::Unit> units)
+void MorphManager::onOffer(BWAPI::Unitset units)
 {
 	//go through all the units that are being offered to us
-	for(std::set<BWAPI::Unit>::iterator i=units.begin();i!=units.end();i++)
+	for(BWAPI::Unitset::iterator i=units.begin();i!=units.end();i++)
 	{
 		//we will go through all the units in the morph queue
 		std::map<BWAPI::UnitType,std::list<BWAPI::UnitType> >::iterator q=morphQueues.find((*i)->getType());
@@ -134,8 +134,8 @@ void MorphManager::onRevoke(BWAPI::Unit unit, double bid)
 
 void MorphManager::update()
 {
-	std::set<BWAPI::Unit> myPlayerUnits=BWAPI::Broodwar->self()->getUnits();
-	for(std::set<BWAPI::Unit>::iterator u = myPlayerUnits.begin(); u != myPlayerUnits.end(); u++)
+	BWAPI::Unitset myPlayerUnits=BWAPI::Broodwar->self()->getUnits();
+	for(BWAPI::Unitset::iterator u = myPlayerUnits.begin(); u != myPlayerUnits.end(); u++)
 	{
 		std::map<BWAPI::UnitType,std::list<BWAPI::UnitType> >::iterator q=morphQueues.find((*u)->getType());
 		if (q!=morphQueues.end() && !q->second.empty() && (*u)->isCompleted() && morphingUnits.find(*u)==morphingUnits.end())
@@ -158,7 +158,7 @@ void MorphManager::update()
 				morphingUnits.erase(i);
 			}
 			else //if the unit is not the right type, tell it to morph into the right type
-				if (BWAPI::Broodwar->canMake(NULL,i->second.type))
+				if (BWAPI::Broodwar->canMake(i->second.type))
 					i->first->morph(i->second.type);
 		}
 		else if (i->first->isMorphing())

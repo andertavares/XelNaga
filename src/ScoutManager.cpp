@@ -8,7 +8,7 @@ using namespace BWAPI;
 void ScoutManager::firstsearch()
 {
 	
-	for (std::set<BWAPI::Unit >::const_iterator it = BWAPI::Broodwar->self()->getUnits().begin(); it != BWAPI::Broodwar->self()->getUnits().end(); ++it)
+	for (BWAPI::Unitset::const_iterator it = BWAPI::Broodwar->self()->getUnits().begin(); it != BWAPI::Broodwar->self()->getUnits().end(); ++it)
     {	
 		if ((*it)->getType().isWorker() || (*it)->getType() == BWAPI::UnitTypes::Protoss_Observer)
         {
@@ -128,10 +128,10 @@ ScoutManager::ScoutManager(Arbitrator::Arbitrator<BWAPI::Unit,double> *arbitrato
 	this->debugMode=true; //chc
 }
 
-void ScoutManager::onOffer(std::set<BWAPI::Unit> units)
+void ScoutManager::onOffer(BWAPI::Unitset units)
 {
-	std::set<BWAPI::Unit>::iterator u2;
-	for(std::set<BWAPI::Unit>::iterator u = units.begin(); u != units.end(); u=u2)
+	BWAPI::Unitset::iterator u2;
+	for(BWAPI::Unitset::iterator u = units.begin(); u != units.end(); u=u2)
 	{
 		u2=u;
 		u2++;
@@ -150,7 +150,7 @@ void ScoutManager::onOffer(std::set<BWAPI::Unit> units)
 	}
 
 	//decline remaining units
-	for(std::set<BWAPI::Unit>::iterator u = units.begin(); u != units.end(); u++)
+	for(BWAPI::Unitset::iterator u = units.begin(); u != units.end(); u++)
 	{
 		arbitrator->decline(this, *u, 0);
 	}
@@ -281,7 +281,7 @@ void ScoutManager::updateScoutAssignments()
 			{
 				for(int y=(*u).second.target->getTilePosition().y;y<(*u).second.target->getTilePosition().y+3;y++)
 				{
-					std::set<BWAPI::Unit> getUnitsOnTile = BWAPI::Broodwar->getUnitsOnTile(x,y);
+					BWAPI::Unitset getUnitsOnTile = BWAPI::Broodwar->getUnitsOnTile(x,y);
 					for each(BWAPI::Unit u in getUnitsOnTile)
 					{
 						// u->getType().isInvincible() means it is a mineral field or a vespene geyser.

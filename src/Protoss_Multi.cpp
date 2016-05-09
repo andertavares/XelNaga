@@ -96,7 +96,7 @@ void Protoss_Multi::onStart()
 	total_attack=false; //총공격 flase;
 	if (Broodwar->isReplay()) return;
 
-	Broodwar->setTextSize(0);
+	Broodwar->setTextSize(BWAPI::Text::Size::Small);	//previously was 0
 	//Broodwar->sendText("Protoss_Multi v2.0 AI Bot Testing");
 
 	// Thanks for the trick, Gabriel!
@@ -3750,7 +3750,7 @@ void Protoss_Multi::onFrame()
 
 
 
-							if((double)(*allMyUnit)->getType().groundWeapon().damageAmount() > 3 && (*allMyUnit)->isCompleted() && (*allMyUnit)->getType().canMove() && !((*allEnemyUnit)->BWAPI::UnitTypes::Zerg_Overlord))
+							if ((double)(*allMyUnit)->getType().groundWeapon().damageAmount() > 3 && (*allMyUnit)->isCompleted() && (*allMyUnit)->getType().canMove() && !((*allEnemyUnit)->getType() == BWAPI::UnitTypes::Zerg_Overlord))
 							{
 								//프로브는 적이 일꾼일때만 나오게.
 								if((*allMyUnit)->getType() == BWAPI::UnitTypes::Protoss_Probe && !((*allEnemyUnit)->getType() == BWAPI::UnitTypes::Protoss_Probe) && !((*allEnemyUnit)->getType() == BWAPI::UnitTypes::Zerg_Drone) && !((*allEnemyUnit)->getType() == BWAPI::UnitTypes::Terran_SCV))

@@ -13,9 +13,9 @@ map<BWAPI::UnitType, map<BWAPI::UnitType, UnitItem* > >* globalUnitSet;
 int y;
 int currentPriority;
 map<const BWAPI::Unit,int> nextFreeTimeData;
-map<BWAPI::UnitType, set<BWAPI::UnitType> > makes;
-map<BWAPI::UnitType, set<BWAPI::TechType> > researches;
-map<BWAPI::UnitType, set<BWAPI::UpgradeType> > upgrades;
+map<BWAPI::UnitType, BWAPI::UnitType::set > makes;
+map<BWAPI::UnitType, BWAPI::TechType::set > researches;
+map<BWAPI::UnitType, BWAPI::UpgradeType::set > upgrades;
 BuildOrderManager* buildOrderManager;
 BuildOrderManager::BuildOrderManager(BuildManager* buildManager, TechManager* techManager, UpgradeManager* upgradeManager, WorkerManager* workerManager, SupplyManager* supplyManager)
 {
@@ -160,10 +160,10 @@ bool BuildOrderManager::isResourceLimited()
 	return this->isMineralLimited && this->isGasLimited;
 }
 //returns the set of unit types the given unit will be able to make at the given time
-set<BWAPI::UnitType> BuildOrderManager::unitsCanMake(MetaUnit* builder, int time)
+BWAPI::UnitType::set BuildOrderManager::unitsCanMake(MetaUnit* builder, int time)
 {
-	set<BWAPI::UnitType> result;
-	for(set<BWAPI::UnitType>::iterator i=makes[builder->getType()].begin();i!=makes[builder->getType()].end();i++)
+	BWAPI::UnitType::set result;
+	for (BWAPI::UnitType::set::iterator i = makes[builder->getType()].begin(); i != makes[builder->getType()].end(); i++)
 	{
 		int t=nextFreeTime(builder,*i);
 		if (t>-1 && t<=time)
@@ -172,10 +172,10 @@ set<BWAPI::UnitType> BuildOrderManager::unitsCanMake(MetaUnit* builder, int time
 	return result;
 }
 
-set<BWAPI::TechType> BuildOrderManager::techsCanResearch(MetaUnit* techUnit, int time)
+BWAPI::TechType::set BuildOrderManager::techsCanResearch(MetaUnit* techUnit, int time)
 {
-	set<BWAPI::TechType> result;
-	for(set<BWAPI::TechType>::iterator i=researches[techUnit->getType()].begin();i!=researches[techUnit->getType()].end();i++)
+	BWAPI::TechType::set result;
+	for (BWAPI::TechType::set::iterator i = researches[techUnit->getType()].begin(); i != researches[techUnit->getType()].end(); i++)
 	{
 		int t=nextFreeTime(techUnit,*i);
 		if (t>-1 && t<=time)
@@ -184,10 +184,10 @@ set<BWAPI::TechType> BuildOrderManager::techsCanResearch(MetaUnit* techUnit, int
 	return result;
 }
 
-set<BWAPI::UpgradeType> BuildOrderManager::upgradesCanResearch(MetaUnit* techUnit, int time)
+BWAPI::UpgradeType::set BuildOrderManager::upgradesCanResearch(MetaUnit* techUnit, int time)
 {
-	set<BWAPI::UpgradeType> result;
-	for(set<BWAPI::UpgradeType>::iterator i=upgrades[techUnit->getType()].begin();i!=upgrades[techUnit->getType()].end();i++)
+	BWAPI::UpgradeType::set result;
+	for (BWAPI::UpgradeType::set::iterator i = upgrades[techUnit->getType()].begin(); i != upgrades[techUnit->getType()].end(); i++)
 	{
 		int t=nextFreeTime(techUnit,*i);
 		if (t>-1 && t<=time)
@@ -207,7 +207,7 @@ bool unitTypeOrderCompare(const pair<BWAPI::UnitType, int >& a, const pair<BWAPI
 	return rA>rB || (rA == rB && pA<pB);
 }
 
-UnitType getUnitType(set<UnitType>& validUnitTypes,vector<pair<BWAPI::UnitType, int > >& unitCounts)
+UnitType getUnitType(BWAPI::UnitType::set& validUnitTypes, vector<pair<BWAPI::UnitType, int > >& unitCounts)
 {
 	UnitType answer=UnitTypes::None;
 	//sort unit counts in descending order of size
@@ -229,7 +229,7 @@ UnitType getUnitType(set<UnitType>& validUnitTypes,vector<pair<BWAPI::UnitType, 
 	return answer;
 }
 
-pair<TechType,UpgradeType> getTechOrUpgradeType(set<TechType>& validTechTypes, set<UpgradeType>& validUpgradeTypes, list<TechItem> &remainingTech)
+pair<TechType, UpgradeType> getTechOrUpgradeType(BWAPI::TechType::set& validTechTypes, BWAPI::UpgradeType::set& validUpgradeTypes, list<TechItem> &remainingTech)
 {
 	pair<TechType,UpgradeType> answer(TechTypes::None,UpgradeTypes::None);
 	for(list<TechItem>::iterator i=remainingTech.begin();i!=remainingTech.end();i++)

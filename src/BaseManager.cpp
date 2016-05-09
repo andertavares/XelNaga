@@ -59,14 +59,14 @@ void BaseManager::update()
 			//Set Refinerys
 			if (!(*b)->isActiveGas() && (*b)->hasGas())
 			{
-				if ((*b)->getRefinery == NULL)
+				if ((*b)->getRefinery() == NULL)
 				{
-					std::set<BWAPI::Unit> baseGeysers = (*b)->getBaseLocation()->getGeysers();
+					BWAPI::Unitset baseGeysers = (*b)->getBaseLocation()->getGeysers();
 
 					BWAPI::TilePosition geyserLocation;
 
 					//cycle through geysers & get tile location
-					for(std::set<BWAPI::Unit>::iterator bg = baseGeysers.begin(); bg != baseGeysers.end(); bg++)
+					for(BWAPI::Unitset::iterator bg = baseGeysers.begin(); bg != baseGeysers.end(); bg++)
 					{
 						geyserLocation = (*bg)->getTilePosition();
 					}
@@ -210,7 +210,7 @@ BWTA::BaseLocation* BaseManager::expand(BWTA::BaseLocation* location, int priori
 	if(!(location->isMineralOnly()))  
 	{
 		this->refineryNeeded += 1;
-		const std::set<BWAPI::Unit> closestGeyser = location->getGeysers();
+		const BWAPI::Unitset closestGeyser = location->getGeysers();
 
 		if (!(this->hasRefinery(location)))
 			this->builder->buildAdditional(1,BWAPI::Broodwar->self()->getRace().getRefinery(),priority, (*closestGeyser.begin())->getTilePosition());
@@ -293,12 +293,12 @@ bool BaseManager::hasRefinery(BWTA::BaseLocation* location)
 	//if base has gas
 	if(!(location->isMineralOnly()))
 	{
-		std::set<BWAPI::Unit> basegeysers = location->getGeysers();
+		BWAPI::Unitset basegeysers = location->getGeysers();
 
 		BWAPI::TilePosition geyserlocation;
 
 		//cycle through geysers & get tile location
-		for(std::set<BWAPI::Unit>::iterator bg = basegeysers.begin(); bg != basegeysers.end(); bg++)
+		for(BWAPI::Unitset::iterator bg = basegeysers.begin(); bg != basegeysers.end(); bg++)
 		{
 			geyserlocation = (*bg)->getInitialTilePosition();
 		}

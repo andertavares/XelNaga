@@ -4,7 +4,7 @@ UpgradeManager::UpgradeManager(Arbitrator::Arbitrator<BWAPI::Unit,double>* arbit
 {
 	this->arbitrator = arbitrator;
 	this->placer = NULL;
-	for(std::set<BWAPI::UpgradeType>::const_iterator i=BWAPI::UpgradeTypes::allUpgradeTypes().begin();i!=BWAPI::UpgradeTypes::allUpgradeTypes().end();i++)
+	for(BWAPI::UpgradeType::set::const_iterator i=BWAPI::UpgradeTypes::allUpgradeTypes().begin();i!=BWAPI::UpgradeTypes::allUpgradeTypes().end();i++)
 	{ //chcconst ¹Ù²Þ.
 		plannedLevel[*i]=0;
 		startedLevel[*i]=0;
@@ -14,9 +14,9 @@ void UpgradeManager::setBuildingPlacer(BuildingPlacer* placer)
 {
 	this->placer = placer;
 }
-void UpgradeManager::onOffer(std::set<BWAPI::Unit> units)
+void UpgradeManager::onOffer(BWAPI::Unitset units)
 {
-	for(std::set<BWAPI::Unit>::iterator i=units.begin();i!=units.end();i++)
+	for(BWAPI::Unitset::iterator i=units.begin();i!=units.end();i++)
 	{
 		std::map<BWAPI::UnitType,std::list<Upgrade> >::iterator q=upgradeQueues.find((*i)->getType());
 		bool used=false;
@@ -24,7 +24,7 @@ void UpgradeManager::onOffer(std::set<BWAPI::Unit> units)
 		{
 			for(std::list<Upgrade>::iterator t=q->second.begin();t!=q->second.end();t++)
 			{
-				if (BWAPI::Broodwar->canUpgrade(*i,t->type))
+				if (BWAPI::Broodwar->canUpgrade(t->type, *i))
 				{
 					upgradingUnits.insert(std::make_pair(*i,*t));
 					q->second.erase(t);
@@ -57,8 +57,8 @@ void UpgradeManager::update()
 	{
 		lastFrameCheck = BWAPI::Broodwar->getFrameCount();
 
-		std::set<BWAPI::Unit> myPlayerUnits=BWAPI::Broodwar->self()->getUnits();
-		for(std::set<BWAPI::Unit>::iterator u = myPlayerUnits.begin(); u != myPlayerUnits.end(); u++)
+		BWAPI::Unitset myPlayerUnits=BWAPI::Broodwar->self()->getUnits();
+		for(BWAPI::Unitset::iterator u = myPlayerUnits.begin(); u != myPlayerUnits.end(); u++)
 		{
 			std::map<BWAPI::UnitType,std::list<Upgrade> >::iterator r=upgradeQueues.find((*u)->getType());
 			if ((*u)->isCompleted() && r!=upgradeQueues.end() && !r->second.empty())
@@ -106,7 +106,7 @@ void UpgradeManager::update()
 						}
 						else
 						{
-							if (BWAPI::Broodwar->canUpgrade(i->first,i->second.type))
+							if (BWAPI::Broodwar->canUpgrade(i->second.type, i->first))
 								i->first->upgrade(i->second.type);
 						}
 					}

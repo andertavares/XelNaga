@@ -9,8 +9,8 @@ public:
 	BWTA::BaseLocation* getBaseLocation() const;
 	BWAPI::Unit getResourceDepot() const;
 	BWAPI::Unit getRefinery() const;
-	std::set<BWAPI::Unit> getMinerals() const;
-	std::set<BWAPI::Unit> getGeysers() const;
+	BWAPI::Unitset getMinerals() const;
+	BWAPI::Unitset getGeysers() const;
 	bool isActive() const;
 	bool isActiveGas() const;
 	bool isBeingConstructed() const;
@@ -26,7 +26,7 @@ private:
 	BWTA::BaseLocation* baseLocation;
 	BWAPI::Unit resourceDepot;
 	BWAPI::Unit refinery;
-	std::set<BWAPI::Unit> minerals;
+	BWAPI::Unitset minerals;
 	bool active;
 	bool activeGas;
 	bool beingConstructed;

@@ -169,9 +169,9 @@ void WorkerManager::rebalanceWorkers()
 	// iterate over all the resources of each active base
 	for(set<Base*>::iterator b = this->basesCache.begin(); b != this->basesCache.end(); b++)
 	{
-		set<Unit> baseMinerals = (*b)->getMinerals();
+		Unitset baseMinerals = (*b)->getMinerals();
 		vector< std::pair<Unit,int> > baseMineralOrder;
-		for(set<Unit>::iterator m = baseMinerals.begin(); m != baseMinerals.end(); m++)
+		for (Unitset::iterator m = baseMinerals.begin(); m != baseMinerals.end(); m++)
 		{
 			resourceBase[*m] = *b;
 			desiredWorkerCount[*m] = 0;
@@ -185,8 +185,8 @@ void WorkerManager::rebalanceWorkers()
 			Unit mineral=baseMineralOrder[i].first;
 			mineralOrder.push_back(make_pair(mineral, mineral->getResources() - 2*(int)mineral->getPosition().getApproxDistance((*b)->getBaseLocation()->getPosition())-3000*i));
 		}
-		set<Unit> baseGeysers = (*b)->getGeysers();
-		for(set<Unit>::iterator g = baseGeysers.begin(); g != baseGeysers.end(); g++)
+		Unitset baseGeysers = (*b)->getGeysers();
+		for (Unitset::iterator g = baseGeysers.begin(); g != baseGeysers.end(); g++)
 		{
 			if (optimalWorkerCount+3 <= 70)
 				optimalWorkerCount+=3;

@@ -15,7 +15,7 @@ void Terran_ZR_Drop::onStart()
 	this->showManagerAssignments=false;
 	if (Broodwar->isReplay()) return;
 
-	Broodwar->setTextSize(0);
+	Broodwar->setTextSize(BWAPI::Text::Size::Small);	//previously was '0'
 	Broodwar->sendText("gg hf");
 
 	// Thanks for the trick, Gabriel!
@@ -915,7 +915,7 @@ for(std::set<BWTA::Region*>::const_iterator r=BWTA::getRegions().begin();r!=BWTA
 			{
 				for (BWAPI::Unitset::const_iterator allMyUnit = BWAPI::Broodwar->self()->getUnits().begin(); allMyUnit != BWAPI::Broodwar->self()->getUnits().end(); ++allMyUnit) 
 		{
-			if((double)(*allMyUnit)->getType().groundWeapon().damageAmount() > 6 || (*allMyUnit)->BWAPI::UnitTypes::Protoss_Reaver)
+			if((double)(*allMyUnit)->getType().groundWeapon().damageAmount() > 6 || (*allMyUnit)->getType() == UnitTypes::Protoss_Reaver)
 							{
 								(*allMyUnit)->attack(en_start);
 								
@@ -1079,7 +1079,7 @@ for(std::set<BWTA::Region*>::const_iterator r=BWTA::getRegions().begin();r!=BWTA
 
 
 
-							if((double)(*allMyUnit)->getType().groundWeapon().damageAmount() > 3 && (*allMyUnit)->isCompleted() && (*allMyUnit)->getType().canMove() && !((*allEnemyUnit)->BWAPI::UnitTypes::Zerg_Overlord))
+							if ((double)(*allMyUnit)->getType().groundWeapon().damageAmount() > 3 && (*allMyUnit)->isCompleted() && (*allMyUnit)->getType().canMove() && !((*allEnemyUnit)->getType() == BWAPI::UnitTypes::Zerg_Overlord))
 							{
 								//프로브는 적이 일꾼일때만 나오게.
 								if((*allMyUnit)->getType() == BWAPI::UnitTypes::Protoss_Probe && !((*allEnemyUnit)->getType() == BWAPI::UnitTypes::Protoss_Probe) && !((*allEnemyUnit)->getType() == BWAPI::UnitTypes::Zerg_Drone) && !((*allEnemyUnit)->getType() == BWAPI::UnitTypes::Terran_SCV))

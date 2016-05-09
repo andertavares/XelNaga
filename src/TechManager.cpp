@@ -9,9 +9,9 @@ void TechManager::setBuildingPlacer(BuildingPlacer* placer)
 {
 	this->placer = placer;
 }
-void TechManager::onOffer(std::set<BWAPI::Unit> units)
+void TechManager::onOffer(BWAPI::Unitset units)
 {
-	for(std::set<BWAPI::Unit>::iterator i=units.begin();i!=units.end();i++)
+	for(BWAPI::Unitset::iterator i=units.begin();i!=units.end();i++)
 	{
 		std::map<BWAPI::UnitType,std::list<BWAPI::TechType> >::iterator q=researchQueues.find((*i)->getType());
 		bool used=false;
@@ -19,7 +19,7 @@ void TechManager::onOffer(std::set<BWAPI::Unit> units)
 		{
 			for(std::list<BWAPI::TechType>::iterator t=q->second.begin();t!=q->second.end();t++)
 			{
-				if (BWAPI::Broodwar->canResearch(*i,*t) && (*i)->isIdle())
+				if (BWAPI::Broodwar->canResearch(*t, *i) && (*i)->isIdle())
 				{
 					researchingUnits.insert(std::make_pair(*i,*t));
 					q->second.erase(t);
@@ -52,8 +52,8 @@ void TechManager::update()
 	{
 		lastFrameCheck = BWAPI::Broodwar->getFrameCount();
 
-		std::set<BWAPI::Unit> myPlayerUnits=BWAPI::Broodwar->self()->getUnits();
-		for(std::set<BWAPI::Unit>::iterator u = myPlayerUnits.begin(); u != myPlayerUnits.end(); u++)
+		BWAPI::Unitset myPlayerUnits=BWAPI::Broodwar->self()->getUnits();
+		for(BWAPI::Unitset::iterator u = myPlayerUnits.begin(); u != myPlayerUnits.end(); u++)
 		{
 			std::map<BWAPI::UnitType,std::list<BWAPI::TechType> >::iterator r=researchQueues.find((*u)->getType());
 			if ((*u)->isCompleted() && r!=researchQueues.end() && !r->second.empty())
@@ -88,7 +88,7 @@ void TechManager::update()
 					}
 					else //if its landed, we can tell it to research the given tech
 					{
-						if (BWAPI::Broodwar->canResearch(i->first,i->second)) //only give the order if we can research it
+						if (BWAPI::Broodwar->canResearch(i->second, i->first)) //only give the order if we can research it
 							i->first->research(i->second);
 					}
 				}

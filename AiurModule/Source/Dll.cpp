@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <stdio.h>
 #include <tchar.h>
-
 #include <BWAPI.h>
 #include "Xelnaga.h"
 namespace BWAPI { Game* Broodwar; }

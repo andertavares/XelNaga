@@ -29,7 +29,7 @@ void DefenseManager::setInformationManager(InformationManager *informationManage
 	this->informationManager = informationManager;
 }
 
-std::set<BWAPI::Unit>& DefenseManager::getIdleDefenders()
+BWAPI::Unitset& DefenseManager::getIdleDefenders()
 {
 	idleDefenders.clear();
 
@@ -280,7 +280,7 @@ void DefenseManager::update()
 				}
 				if (u->first->isUnderAttack())
 				{
-					std::set<BWAPI::Unit > backup = this->getIdleDefenders();
+					BWAPI::Unitset backup = this->getIdleDefenders();
 					for each (BWAPI::Unit bck in backup)
 					{
 						bck->attack(u->first->getPosition());
@@ -318,7 +318,7 @@ void DefenseManager::update()
 				}
 				if (u->first->isUnderAttack())
 				{
-					std::set<BWAPI::Unit > backup = this->getIdleDefenders();
+					BWAPI::Unitset backup = this->getIdleDefenders();
 					for each (BWAPI::Unit bck in backup)
 					{
 						bck->attack(u->first->getPosition());

@@ -24,12 +24,12 @@ BWAPI::Unit Base::getRefinery() const
 	return this->refinery;
 }
 
-std::set<BWAPI::Unit> Base::getMinerals() const
+BWAPI::Unitset Base::getMinerals() const
 {
 	return this->baseLocation->getMinerals();
 }
 
-std::set<BWAPI::Unit> Base::getGeysers() const
+BWAPI::Unitset Base::getGeysers() const
 {
 	return this->baseLocation->getGeysers();
 }

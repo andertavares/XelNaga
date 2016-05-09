@@ -29,7 +29,7 @@ public:
 	void setDefenseManager			(DefenseManager*);
 	void setInformationManager	(InformationManager*);
 	void setBaseManager					(BaseManager*);
-	virtual void onOffer(std::set<BWAPI::Unit> unitGroup);
+	virtual void onOffer(BWAPI::Unitset unitGroup);
 	virtual void onRevoke(BWAPI::Unit p, double bid);
 	void onRemoveUnit(BWAPI::Unit unit);
 	virtual void update();

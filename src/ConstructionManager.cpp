@@ -11,7 +11,7 @@ ConstructionManager::ConstructionManager(Arbitrator::Arbitrator<BWAPI::Unit,doub
 	}
 }
 
-void ConstructionManager::onOffer(std::set<BWAPI::Unit> units)
+void ConstructionManager::onOffer(BWAPI::Unitset units)
 {
 	//we are being offered some units (hopefully builders).
 	//accept want we need and decline the rest
@@ -177,7 +177,7 @@ void ConstructionManager::update()
 			}
 			else //building either does not exist, or is incomplete
 			{
-				if (BWAPI::Broodwar->canMake(NULL,b->type))
+				if (BWAPI::Broodwar->canMake(b->type))
 				{
 					if (u == NULL) //if we don't have a builder, ask for one and wait for it to be offered
 						buildingsNeedingBuilders[b->type.whatBuilds().first].insert(b);
@@ -317,10 +317,10 @@ void ConstructionManager::update()
 							if (distance > 100 && u->getLastCommandFrame() + 4 < BWAPI::Broodwar->getFrameCount() && u->getOrder() != BWAPI::Orders::Move ) //if its too far away, tell it to go to the build site
 								u->rightClick(b->position);
 							else //if its close enough, tell it to build
-								if (BWAPI::Broodwar->canBuildHere(u, b->tilePosition, b->type)) //if we can build here, tell the worker to build
+								if (BWAPI::Broodwar->canBuildHere(b->tilePosition, b->type, u)) //if we can build here, tell the worker to build
 								{
-									if (BWAPI::Broodwar->canMake(u, b->type))
-										u->build(b->tilePosition, b->type);
+									if (BWAPI::Broodwar->canMake(b->type, u))
+										u->build(b->type, b->tilePosition);
 								}
 								else //if we cannot build here, we need to find another build site (reset the tilePosition)
 								{

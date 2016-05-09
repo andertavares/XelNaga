@@ -11,7 +11,7 @@ public:
 		bool started;
 	};
 	MorphManager(Arbitrator::Arbitrator<BWAPI::Unit,double>* arbitrator);
-	virtual void onOffer(std::set<BWAPI::Unit> units);
+	virtual void onOffer(BWAPI::Unitset units);
 	virtual void onRevoke(BWAPI::Unit unit, double bid);
 	virtual void update();
 	virtual std::string getName() const;

@@ -26,7 +26,7 @@ public:
 	};
 	ScoutManager(Arbitrator::Arbitrator<BWAPI::Unit,double>*, InformationManager*);
 
-	virtual void onOffer(std::set<BWAPI::Unit>);
+	virtual void onOffer(BWAPI::Unitset);
 	virtual void onRevoke(BWAPI::Unit, double);
 	virtual void update();
 

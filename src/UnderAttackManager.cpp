@@ -37,7 +37,7 @@ void UnderAttackManager::update()
 				// If I am an under attacked worker, myCoWorkers are my buddy workers from the same base
 				UnitGroup myCoWorkers;
 
-				std::set<BWAPI::Unit> idleDef = defenseManager->getIdleDefenders();
+				BWAPI::Unitset idleDef = defenseManager->getIdleDefenders();
 				for each (BWAPI::Unit def in idleDef)
 				{
 					arbitrator->setBid(this, def, 50);
@@ -45,7 +45,7 @@ void UnderAttackManager::update()
 
 				if (u->getType().isWorker())
 				{
-					std::set<BWAPI::Unit> aroundMe = u->getUnitsInRadius(u->getType().sightRange());
+					BWAPI::Unitset aroundMe = u->getUnitsInRadius(u->getType().sightRange());
 					myCoWorkers = UnitGroup::getUnitGroup(aroundMe);
 					myCoWorkers = myCoWorkers(BWAPI::Broodwar->self())(isWorker)(isCompleted);
 					for each (BWAPI::Unit def in myCoWorkers)
@@ -83,7 +83,7 @@ void UnderAttackManager::update()
 			// if build u is placed inside one of our region, blast it!
 			if (baseManager->getMyRegions().find(BWTA::getRegion(u->getTilePosition())) != baseManager->getMyRegions().end())
 			{
-				std::set<BWAPI::Unit> idleDef = defenseManager->getIdleDefenders();
+				BWAPI::Unitset idleDef = defenseManager->getIdleDefenders();
 				for each (BWAPI::Unit def in idleDef)
 				{
 					arbitrator->setBid(this, def, 50);
@@ -122,7 +122,7 @@ std::string UnderAttackManager::getShortName() const
 	return "UAM";
 }
 
-void UnderAttackManager::onOffer(std::set<BWAPI::Unit> units)
+void UnderAttackManager::onOffer(BWAPI::Unitset units)
 {
 	for each (BWAPI::Unit u in units)
 	{

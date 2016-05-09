@@ -105,7 +105,7 @@ void Protoss_ZR::onStart()
 	total_attack=false; //ÃÑ°ø°Ý flase;
 	if (Broodwar->isReplay()) return;
 
-	Broodwar->setTextSize(0);
+	Broodwar->setTextSize(BWAPI::Text::Size::Small);
 	Broodwar->sendText("Protoss_ZR v2.0 AI Bot Testing");
 
 	// Thanks for the trick, Gabriel!

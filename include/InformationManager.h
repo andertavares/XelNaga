@@ -11,7 +11,7 @@ public:
 		UnitData();
 		BWAPI::Position position;
 		BWAPI::UnitType type;
-		BWAPI::Player		*player;
+		BWAPI::Player	player;
 		int							lastSeenTime;
 		bool						exists;
 	};

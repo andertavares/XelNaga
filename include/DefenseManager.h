@@ -25,7 +25,7 @@ public:
 	void										setBorderManager			(BorderManager* borderManager);
 	void										setBaseManager				(BaseManager *baseManager);
 	void										setInformationManager	(InformationManager *informationManager);
-	std::set<BWAPI::Unit>& getIdleDefenders			();
+	BWAPI::Unitset& getIdleDefenders			();
 	virtual void						onOffer								(std::set<BWAPI::Unit> units);
 	virtual void						onRevoke							(BWAPI::Unit unit, double bid);
 	void										onRemoveUnit					(BWAPI::Unit unit);
@@ -55,7 +55,7 @@ private:
 
 
 	std::map<BWAPI::Unit,DefenseData>					defenders;
-	std::set<BWAPI::Unit>											idleDefenders;
+	BWAPI::Unitset											idleDefenders;
 	int																					lastFrameCheck;
 	int																					round;
 };

@@ -142,7 +142,7 @@ bool passesFlag(Unit u, int f)
 		if (u->isUnderStorm()) return true;
 		break;
 	case isUnpowered:
-		if (u->isUnpowered()) return true;
+		if (!u->isPowered()) return true;	//replaces u->isUnpowered()
 		break;
 	case isUpgrading:
 		if (u->isUpgrading()) return true;
@@ -1628,7 +1628,7 @@ bool UnitGroup::build(TilePosition position, UnitType type) const
 	bool retval=true;
 	for(set<Unit>::const_iterator i=this->begin();i!=this->end();i++)
 	{
-		retval = retval && (*i)->build(position,type);
+		retval = retval && (*i)->build(type, position);
 	}
 	return retval;
 }

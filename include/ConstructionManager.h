@@ -18,7 +18,7 @@ public:
 		bool started;
 	};
 	ConstructionManager(Arbitrator::Arbitrator<BWAPI::Unit,double>* arbitrator, BuildingPlacer* placer);
-	virtual void onOffer(std::set<BWAPI::Unit> units);
+	virtual void onOffer(BWAPI::Unitset units);
 	virtual void onRevoke(BWAPI::Unit unit, double bid);
 	virtual void update();
 	virtual std::string getName() const;

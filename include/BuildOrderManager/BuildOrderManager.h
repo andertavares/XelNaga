@@ -83,8 +83,8 @@ public:
 	void enableDependencyResolver();
 	void setDebugMode(bool debugMode);
 	BWAPI::UnitType::set unitsCanMake(MetaUnit* builder, int time);
-	std::set<BWAPI::TechType> techsCanResearch(MetaUnit* techUnit, int time);
-	std::set<BWAPI::UpgradeType> upgradesCanResearch(MetaUnit* techUnit, int time);
+	BWAPI::TechType::set techsCanResearch(MetaUnit* techUnit, int time);
+	BWAPI::UpgradeType::set upgradesCanResearch(MetaUnit* techUnit, int time);
 
 	int nextFreeTime(const MetaUnit* unit);
 	int nextFreeTime(BWAPI::UnitType t);
